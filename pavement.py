@@ -44,7 +44,7 @@ def clean_tmp(options):
 @task
 @needs('clean_tmp')
 def copy_src_to_srcbuild(options):
-    srcfiles = srcdir / glob("*" + options.rst_ext) 
+    srcfiles = path.glob(options.srcdir / path( "*" + options.rst_ext))
     srcfiles.copy(options.srcbuilddir)
 
     
