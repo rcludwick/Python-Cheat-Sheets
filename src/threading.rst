@@ -1,5 +1,11 @@
-Threading
-~~~~~~~~~
+.. header::
+
+    .. class:: heading
+
+        ..class:: centered
+
+            Threading
+
 
 **Import Syntax**
 
@@ -44,5 +50,19 @@ will then be called by the *start* method.
     #Join when finished
     my_thread.join()
              
-            
+**Daemon Mode**:
+Setting daemon mode on a thread will prevent the thread from keeping
+the program from exiting.  Any thread in daemon mode that has not exited will
+hang preventing the main thread from exiting.
+
+.. code-block:: python
+
+    my_thread = MyThreadClass()
+
+    #set daemon mode
+    my_thread.daemon = True
+
+    #Thread now started in daemon mode
+    my_thread.start()
+
 
