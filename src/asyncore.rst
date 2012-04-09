@@ -4,6 +4,12 @@ asyncore
 Python's asyncore provides an event loop that can handle
 transactions from multiple non-blocking sockets.
 
+.. caution::
+    asyncore is not threadsafe.  The use of the map
+    paramter in *asyncore.dispatcher.__init__()* and in
+    *asyncore.loop()* is required for asyncore to work
+    in multiple threads.
+
 **Import Syntax**
 ::
     import asyncore
@@ -17,7 +23,7 @@ already.
 
 *map*: is a dictionary for use when different asyncore
 loops are running on different threads.  The same map is
-passed into asyncore.loop()
+passed into *asyncore.loop()*
 
 **asyncore.dispatcher.** Subclass asyncore.dispatcher:
 
@@ -26,10 +32,10 @@ passed into asyncore.loop()
     import asyncore
     import socket
 
-    class SampleClass(asyncore.dispatcher):
+    class MyDispatcher(asyncore.dispatcher):
 
-        def __init__(self):
-            self.asyncore.dispatcher.__init__(self)
+        def __init__(self, map=None):
+            self.asyncore.dispatcher.__init__(self, map=map)
             self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
             self.connect(("example.com",2222))
             self.out_buffer = ''
@@ -70,8 +76,64 @@ need to be overridden are listed below.
                 self.handle_write()
             self.close()
 
+For dispatchers binding to a socket, 
+*handle_accept()* must be provide as well
+as the other handler functions necessary.
+
+.. code-block:: python
+
+
+    def __init__(self, bind_ip, bind_port):
+        asyncore.dispatcher.__init__(self)
+        self.bind((bind_ip, bind_port))
+        self.listen(5)
+
+    [...]
+
+    def handle_accept(self):
+        #Do something with the new socket
+        port, dest = self.accept()
+
 
 **asyncore.dispatcher_with_send**
 This is just like the normal dispatcher, except that the writable() and
-handle_write() methods have been already provided.
+*handle_write()* methods have been already provided.  **Note:** to prevent
+data loss upon the close provide a *handle_close()* similar to the one
+listed above.
+
+**Call asyncore.loop().**
+
+.. code-block:: python
+
+  asyncore.loop(timeout=30.0, use_poll=False, map=None, count=None)
+
+*timeout:* Timeout in seconds.
+
+*use_poll:* Use *poll()* instead of *select()*.
+
+*map:* This is the same dictionary used with the optional map 
+argument for the asyncore.dispatcher initializer.
+
+*count:* The number of times to run through the loop.  This could make 
+loop wait as long as count * timeout.
+
+**Using asyncore with threads.** Asyncore keeps a global map 
+keeping track of dispatchers to sockets.  With threading, this
+map can be changed on the fly while the event loop is running.
+
+To use with threads, a dictionary used exclusively by the thread is
+passed with the map paramter.  Using the MyDispatcher example above:
+
+.. code-block:: python
+
+    #Create a dictionary
+    map = {} 
+
+    #MyDispatcher will pass this to
+    #asyncore.dispatcher
+    d = MyDispatcher(map=map)
+
+    #Pass the map into the loop
+    asyncore.loop(timeout=0.1, map=map)
+
 
