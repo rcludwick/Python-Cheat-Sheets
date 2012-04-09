@@ -1,5 +1,5 @@
-ayncore
-~~~~~~~
+asyncore
+~~~~~~~~
 
 Python's asyncore provides an event loop that can handle
 transactions from multiple non-blocking sockets.
@@ -19,8 +19,10 @@ already.
 loops are running on different threads.  The same map is
 passed into asyncore.loop()
 
-**asyncore.dispatcher.**
-Subclass asyncore.dispatcher :: 
+**asyncore.dispatcher.** Subclass asyncore.dispatcher:
+
+.. code-block:: python
+
     import asyncore
     import socket
 
@@ -32,6 +34,12 @@ Subclass asyncore.dispatcher ::
             self.connect(("example.com",2222))
             self.out_buffer = ''
             self.in_buffer = ''
+
+
+**Override methods.**  The methods that
+need to be overridden are listed below.
+
+.. code-block:: python
 
         def handle_read(self):
             # Do something with data
@@ -51,7 +59,8 @@ Subclass asyncore.dispatcher ::
         def writeable(self):
             #Test for select(). Must have data to write
             #otherwise select() will trigger
-            if self.connected() and len(self.out_buffer) > 0:
+            if self.connected() 
+                and len(self.out_buffer) > 0: 
                 return True
             return False
 
