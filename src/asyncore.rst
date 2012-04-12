@@ -4,18 +4,23 @@ asyncore
 Python's asyncore provides an event loop that can handle
 transactions from multiple non-blocking sockets.
 
-.. caution::
-    asyncore is not threadsafe.  The use of the map
+.. note::
+
+    asyncore is not **threadsafe**.  The use of the map
     paramter in *asyncore.dispatcher.__init__()* and in
     *asyncore.loop()* is required for asyncore to work
     in multiple threads.
 
 **Import Syntax**
-::
+
+.. code-block:: python
+
     import asyncore
 
 **__init__ parameters**
-::
+
+.. code-block:: python
+
     asyncore.dispatcher.__init__(self, sock, map)
 
 *sock*: is the socket to be passed in if it exists
@@ -62,7 +67,8 @@ need to be overridden are listed below.
             #Test for select() and friends
             return True
 
-        def writeable(self):
+        #There is no 'e' in 'writeable' here.
+        def writable(self):
             #Test for select(). Must have data to write
             #otherwise select() will trigger
             if self.connected() 
@@ -77,7 +83,7 @@ need to be overridden are listed below.
             self.close()
 
 For dispatchers binding to a socket, 
-*handle_accept()* must be provide as well
+*handle_accept()* must be provided as well
 as the other handler functions necessary.
 
 .. code-block:: python

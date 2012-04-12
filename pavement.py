@@ -29,7 +29,7 @@ options(
         )
 
 options(
-        rst2pdf_stylesheets = ("twocolumn","letter","eightpoint","freetype-sans","friendly",),
+        rst2pdf_stylesheets = ("sphinx", "twocolumn","letter","eightpoint","freetype-sans",),
         )
 
 @task
