@@ -16,4 +16,9 @@ Using restructured text and rst2pdf, the goal will be to create a series of pdfs
 
 Files will be built using the following command::
 
-rst2pdf -s twocolumn,letter,eightpoint,freetype-sans,friendly threading.rst > threading.pdf
+::
+
+  $ paver
+
+
+This relies upon **rst2pdf** and **sphinx** installed.
