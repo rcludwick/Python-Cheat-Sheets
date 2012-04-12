@@ -107,6 +107,11 @@ This is just like the normal dispatcher, except that the writable() and
 data loss upon the close provide a *handle_close()* similar to the one
 listed above.
 
+**asyncore.file_dispatcher**
+Instead of a socket, a file descriptor is passed in.  Asyncore will wrap the
+fd to be able to be called with the recv() and send() parameters.  This is
+useful for devices which cannot be described from the standpoint as a socket (e.g. /dev/net/tun)
+
 **Call asyncore.loop().**
 
 .. code-block:: python
@@ -142,4 +147,10 @@ passed with the map paramter.  Using the MyDispatcher example above:
     #Pass the map into the loop
     asyncore.loop(timeout=0.1, map=map)
 
+Further a *handle_accept()* method, if it creates another class in the asyncore.dispatcher
+hierarchy should pass the same *map* into it if it's expected this class will be operating
+in the same thread.
 
+It should be further noted that a *close()* will remove the dispatcher from the map automatically.
+This architecture will allow many dispatchers running without necessarily keeping track of the
+dispatchers.
