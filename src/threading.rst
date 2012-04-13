@@ -1,10 +1,5 @@
-.. header::
-
-    .. class:: heading
-
-        ..class:: centered
-
-            Threading
+threading
+~~~~~~~~~
 
 
 **Import Syntax**

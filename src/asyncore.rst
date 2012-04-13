@@ -147,10 +147,11 @@ passed with the map paramter.  Using the MyDispatcher example above:
     #Pass the map into the loop
     asyncore.loop(timeout=0.1, map=map)
 
-Further a *handle_accept()* method, if it creates another class in the asyncore.dispatcher
-hierarchy should pass the same *map* into it if it's expected this class will be operating
-in the same thread.
+If a dispatcher creates another dispatcher class which will need to be run 
+in the same thread, the *map* must be the same map 
+that was passed to the *__init__()* function of the parent class.  It is
+likely this will be the *_map* attribute of the parent dispatcher. 
 
-It should be further noted that a *close()* will remove the dispatcher from the map automatically.
-This architecture will allow many dispatchers running without necessarily keeping track of the
-dispatchers.
+Also, *close()* will remove the dispatcher from the map it was assigned to 
+automatically.  This could be due to a *socket.error* or a close event on
+the other side.
