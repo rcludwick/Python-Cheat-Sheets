@@ -71,14 +71,13 @@ need to be overridden are listed below.
         def writable(self):
             #Test for select(). Must have data to write
             #otherwise select() will trigger
-            if self.connected() 
-                and len(self.out_buffer) > 0: 
+            if self.connected and len(self.out_buffer) > 0: 
                 return True
             return False
 
         def handle_close(self):
             #Flush the buffer
-            while self.writeable():
+            while self.writable():
                 self.handle_write()
             self.close()
 
@@ -87,7 +86,6 @@ For dispatchers binding to a socket,
 as the other handler functions necessary.
 
 .. code-block:: python
-
 
     def __init__(self, bind_ip, bind_port):
         asyncore.dispatcher.__init__(self)
