@@ -48,7 +48,7 @@ passed into *asyncore.loop()*
 
 
 **Override methods.**  The methods that
-need to be overridden are listed below.
+#need to be overridden are listed below.
 
 .. code-block:: python
 
@@ -80,6 +80,28 @@ need to be overridden are listed below.
             while self.writable():
                 self.handle_write()
             self.close()
+
+**Provide a public api for writing():**  While the dispatcher has a *send()*
+function, but that is for the use of the *handle_write()* function.  Create
+a public api *write_data()* function which will add data to the buffer.  
+
+The problem with using the *dispatcher.send()* function directly is that the sockets
+are set in non-blocking mode.  *send()* might return a value that indicates 
+that only part of the buffer was written.  It is better to let the 
+*handle_write()* write the data above, as the *asyncore.loop()* will call 
+*handle_write()* until all the data gets written.
+
+.. code-block:: python
+
+        @api
+        def write_data(self, data):
+            '''
+            Public facing interface method.  This is the function
+            external code will use to send data to this dispatcher.
+            '''
+            self.out_buffer += data
+
+
 
 For dispatchers binding to a socket, 
 *handle_accept()* must be provided as well

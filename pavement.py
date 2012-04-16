@@ -29,7 +29,8 @@ options(
         )
 
 options(
-        rst2pdf_stylesheets = ("sphinx", "twocolumn","letter","eightpoint","freetype-sans",),
+        rst2pdf_stylesheets = ("sphinx", "twocolumn", "letter",
+            "eightpoint",),
         )
 
 @task
@@ -66,7 +67,7 @@ def rsttopdf(options):
     for i in rstfiles:
         oname = i.stripext().basename() + options.pdf_ext
         o = options.builddir / oname
-        sh("rst2pdf %s -o %s -s %s" % ( i , o , stylesheets) )
+        sh("rst2pdf --first-page-even %s -o %s -s %s" % ( i , o , stylesheets) )
 
 
 @task
