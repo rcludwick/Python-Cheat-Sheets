@@ -11,14 +11,12 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-    python
-        asyncore
-        contextmanager
-        threading
-        rst
+    asyncore
+    contextmanager
+    threading
+    rst
 
-    linux
-        git
+    git
 
 
 
