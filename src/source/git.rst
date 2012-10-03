@@ -25,8 +25,30 @@ as they are not necessarily used on a daily basis.
     #Delete a remote branch with the colon
     $ git push origin :<branchname>
 
-**Amending Commit Message** usage::
+**Resetting and Restoring** usage::
 
     #Amending last commit
     $ git commit --amend
+
+    #Resetting every file
+    $ git reset HEAD --hard
+
+    #Restoring one file to the last commit
+    $ git reset commit
+
+**Aliases and Config** usage::
+
+    #Aliasing "co" to "Checkout"
+    $ git config --global alias.co checkout
+
+**Creating New Repos** usage::
+
+    #Create a new repo
+    $ git init
+
+    #Create the repo on the server
+    $ git init --bare --share repo.git
+
+    #Now push the local repo up to the server
+    $ git push ssh://example.com/git/repo.git "*:*"
 
