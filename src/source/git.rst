@@ -33,7 +33,10 @@ as they are not necessarily used on a daily basis.
     #Resetting every file
     $ git reset HEAD --hard
 
-    #Restoring one file to the last commit
+    #Resetting an edited file to an unstage commit
+    $ git reset -- <filename>
+
+    #Restoring a staged file to the previous commit
     $ git reset commit
 
 **Aliases and Config** usage::
