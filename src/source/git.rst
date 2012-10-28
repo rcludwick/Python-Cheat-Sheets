@@ -39,6 +39,9 @@ as they are not necessarily used on a daily basis.
     #Restoring a staged file to the previous commit
     $ git reset commit
 
+    #Aborting a failed merge
+    $ git merge abort
+
 **Aliases and Config** usage::
 
     #Aliasing "co" to "Checkout"
